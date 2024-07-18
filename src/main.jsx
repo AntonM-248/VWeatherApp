@@ -5,6 +5,8 @@ import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import HighsLows from './components/HighsLows.jsx';
 import { WeatherReport } from './components/WeatherReport.jsx';
+import { Provider } from 'react-redux';
+import recordStore from './utils/recordStore.js';
 
 const AppRouter = createBrowserRouter([
   {
@@ -14,15 +16,18 @@ const AppRouter = createBrowserRouter([
       {
         path: '/highlow',
         element: (
-          <>
+          <Provider store={recordStore}>
             <HighsLows />
-          </>
+          </Provider>
         )
       },
       {
         path: '/',
-        element: <WeatherReport />
-      }
+        element:
+          <Provider store={recordStore}>
+            <WeatherReport />
+          </Provider>
+      }   
     ]
   }
 ]);

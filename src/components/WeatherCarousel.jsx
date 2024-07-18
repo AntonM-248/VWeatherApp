@@ -1,11 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { addRecord } from "../utils/recordSlice";
+import Record from '../object_constructors/Record'
+import { useDispatch } from "react-redux";
 
 export const WeatherCarousel = ({numDays, zipCode}) => {
 
   const baseUrl = 'http://api.weatherapi.com/v1';
   const forecast = '/forecast.json';
   const apiKey = '1b57f4ce4c4d4c1a8d4152622241407';
+
+  const dispatch = useDispatch();
 
   const [forecastData, setForecastData] = useState(null);
 
@@ -20,10 +25,9 @@ export const WeatherCarousel = ({numDays, zipCode}) => {
     })
       .then(function (response) {
         console.log(response);
-        console.log(numDays);
-        console.log(response.data);
         setForecastData(response.data);
-
+        const newRecord = new Record(zipCode, response.data.forecast.forecastday[0].day.maxtemp_f.toString(),response.data.forecast.forecastday[0].day.mintemp_f.toString());
+        dispatch(addRecord(JSON.stringify(newRecord)));
       })
       .catch(function (error) {
         console.log(error);
