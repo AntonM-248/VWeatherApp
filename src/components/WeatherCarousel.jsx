@@ -24,14 +24,25 @@ export const WeatherCarousel = ({numDays, zipCode}) => {
       }
     })
       .then(function (response) {
-        console.log(response);
         setForecastData(response.data);
-        const newRecord = new Record(zipCode, response.data.forecast.forecastday[0].day.maxtemp_f.toString(),response.data.forecast.forecastday[0].day.mintemp_f.toString());
+        const newRecord = new Record(zipCode, getHighestMaxTemp(response.data.forecast.forecastday).toString(), getLowestMinTemp(response.data.forecast.forecastday).toString());
         dispatch(addRecord(JSON.stringify(newRecord)));
       })
       .catch(function (error) {
         console.log(error);
       })
+  }
+
+  const getHighestMaxTemp = (forecastArray) => {
+    const maxTemps = forecastArray.map((forecast) => forecast.day.maxtemp_f);
+    let max = Math.max(...maxTemps);
+    return max;
+  }
+
+  const getLowestMinTemp = (forecastArray) => {
+    const minTemps = forecastArray.map((forecast) => forecast.day.mintemp_f);
+    let min = Math.min(...minTemps);
+    return min;
   }
 
   useEffect(getWeatherData, [numDays]);
@@ -43,7 +54,7 @@ export const WeatherCarousel = ({numDays, zipCode}) => {
           {forecastData != null ?
           <>
             {forecastData.forecast.forecastday.map((oneDayForecast, index) => 
-              <div className={index === 0 ? 'carousel-item active' : 'carousel-item'} key={index}>
+              <div className={index === 0 ? 'carousel-item active' : 'carousel-item'} key={oneDayForecast.date}>
                 <img src="https://png.pngtree.com/element_our/20190529/ourmid/pngtree-weather-forecast-image_1197280.jpg" className="d-block w-100" alt="..."/>
                 <div className="carousel-caption d-none d-md-block">
                   <h1>Day {index + 1}</h1>
