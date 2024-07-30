@@ -15,6 +15,8 @@ const Navbar = () => {
             <div className="navbar-nav">
               <Link className="nav-link active" aria-current="page" to='/'>Zip Code Search</Link>
               <Link className="nav-link" to="highlow">Highs And Lows</Link>
+              <Link className="nav-link" to="timer">Timer</Link>
+              <Link className="nav-link" to="infinitescroll">Infinite Scroll</Link>
             </div>
           </div>
         </div>

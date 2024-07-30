@@ -4,6 +4,8 @@ import { WeatherReport } from './components/WeatherReport.jsx';
 import { Provider } from 'react-redux';
 import recordStore from './utils/recordStore.js';
 import App from './App.jsx';
+import Timer from './components/Timer.jsx';
+import InfiniteScroll from './components/InfiniteScroll.jsx';
 
 const AppRouter = createBrowserRouter([
   {
@@ -24,7 +26,17 @@ const AppRouter = createBrowserRouter([
           <Provider store={recordStore}>
             <WeatherReport />
           </Provider>
-      }   
+      },
+      {
+        path: '/timer',
+        element:
+          <Timer />
+      },
+      {
+        path: '/infinitescroll',
+        element:
+          <InfiniteScroll />
+      }      
     ]
   }
 ]);
